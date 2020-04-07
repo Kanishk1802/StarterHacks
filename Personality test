@@ -1,0 +1,194 @@
+/*Kanishk Dutta 
+ 
+ * 
+ */
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Scanner;
+
+public class PersonalityTest {
+	
+	public static final int dim = 4;
+
+	public static void main(String[] args) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		
+		instructions(); 
+	
+		// asking user for input file
+		Scanner in = new Scanner(System.in);
+		
+		String i = in.next();
+		Scanner input = new Scanner(new File(i));
+		File inFile = new File(i);
+		
+		System.out.println("Output File name:");
+		String i1 = in.next();
+		
+	if (inFile.exists() == true) {
+		// checking if file exist
+		read(input,i1);
+		
+	}
+	else {
+		while (inFile.exists() == false) {
+			System.out.println("File not found. Try Again"); // if it does not exist, try again
+			i = in.next();
+			input = new Scanner(new File(i));
+			inFile = new File(i);
+		}
+	}
+	
+			
+	}
+	
+	public static void read(Scanner input, String out) throws FileNotFoundException {
+		PrintStream print = new PrintStream (new File (out)); // setting the output file
+	
+		while (input.hasNextLine()) {
+			String userName = input.nextLine();
+			String persT = input.nextLine();
+			int[] aVal = new int[dim];		// arrays for the counts of each respose for all questions
+			int[] bVal = new int[dim];
+			int A1 = 0;		// setting counts for each answer in both arrays
+			int B1 = 0;
+			int A2 = 0;
+			int B2 = 0;
+			int A3 = 0;
+			int B3 = 0;
+			int A4 = 0;
+			int B4 = 0;
+			
+			for (int i = 0; i < persT.length(); i++) {		
+				
+				if (i % 7 == 1) {		// checking what question the letter corresponds to
+					if (persT.charAt(i) == 'a' || persT.charAt(i) == 'A' ) {
+						A1++;
+						aVal[0] = A1;			// increasing count and adding value to corresponding array
+						
+					}
+					else if (persT.charAt(i) == 'b' || persT.charAt(i) == 'B' ) {
+						B1++;
+						bVal[0] = B1;
+					}
+				
+				} else if (i % 7 == 2 || i % 7 == 3) {
+					if (persT.charAt(i) == 'a' || persT.charAt(i) == 'A' ) {
+						A2++;
+						aVal[1] = A2;
+						
+					}
+					else if (persT.charAt(i) == 'b' || persT.charAt(i) == 'B' ) {
+						B2++;
+						bVal[1] = B2;
+					
+				}
+				
+				} else if (i % 7 == 4 || i % 7 == 5) {
+					if (persT.charAt(i) == 'a' || persT.charAt(i) == 'A' ) {
+						A3++;
+						aVal[2] = A3;
+						
+					}
+					else if (persT.charAt(i) == 'b' || persT.charAt(i) == 'B' ) {
+						B3++;
+						bVal[2] = B3;
+					
+				}
+						
+					} else if (i % 7 == 0 || i % 7 == 6) {
+						if (persT.charAt(i) == 'a' || persT.charAt(i) == 'A' ) {
+							A4++;
+							aVal[3] = A4;
+							
+						}
+						else if (persT.charAt(i) == 'b' || persT.charAt(i) == 'B' ) {
+							B4++;
+							bVal[3] = B4;
+						
+					}
+					}
+				
+				
+				
+				
+				
+			}
+			
+			System.out.println(userName);
+			
+			result(aVal, bVal, print);
+	
+			}
+		}
+	
+	public static void result(int [] A, int[] B, PrintStream out) {
+		int [] ratio = new int [dim];			// array for the number of b responses
+		
+		for (int i = 0; i < dim; i++) {
+			
+	out.println(A[i] + "A-" + B[i] + " B");
+}
+		for (int i = 0; i < dim; i++) {
+			
+			ratio[i] = ((B[i]/B[i] + A[i]) * 100);			// calculating if B responses are greater than 50%
+		}
+		
+		for (int i = 0; i < dim; i++) {
+	
+				out.println("[");
+				out.print( ratio[i] + ", ");
+		
+		}
+				out.print("]");
+		
+	String [] code = new String [dim];							// creating assignment responding to b responses
+	
+		if (ratio[0] > 50) {
+			code[0] = "I";
+		}
+			else if (ratio[0] < 50) {
+				code[0] = "E";
+			}
+			else if (ratio[1] > 50) {
+				code[1] = "N";
+			}
+			else if (ratio[1] < 50) {
+				code[1] = "S";
+			}
+			else if (ratio[2] > 50) {
+				code [2] = "F";
+			}
+			else if (ratio[2] < 50) {
+				code [2] = "T";
+			}
+			else if (ratio[3] > 50) {
+				code [3] = "P";
+			}
+			else if (ratio[3] < 50) {
+				code [3] = "J";
+			}
+		
+		out.print(" = ");
+		
+		for (int i = 0; i < dim ; i++) {
+			
+			out.print(code[i]);
+		
+			
+		}
+		
+		
+		}
+		
+	
+	public static void instructions() {
+		System.out.println("Hi there welcome to personality test!");
+		System.out.println("I need your input & output file names.");
+		System.out.println("Input file name:");
+	}
+
+}
